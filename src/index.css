@@ -1,7 +1,7 @@
-/*
-  Josh's Custom CSS Reset
-  https://www.joshwcomeau.com/css/custom-css-reset/
-*/
+@import url("https://fonts.googleapis.com/css?family=Fredoka+One&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Oswald&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
 *,
 *::before,
 *::after {
@@ -17,7 +17,16 @@ body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Fredoka One", cursive; */
+  /* font-family: "Oswald", sans-serif; */
+  font-family: "Roboto", sans-serif;
+
+  background: rgb(195, 14, 14);
+  background: radial-gradient(
+    circle,
+    rgba(195, 14, 14, 1) 0%,
+    rgba(0, 0, 0, 1) 90%
+  );
 }
 img,
 picture,
