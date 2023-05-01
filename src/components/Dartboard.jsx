@@ -4,11 +4,11 @@ import dartboardSvg from "../assets/dartboard.svg";
 import "./Dartboard.css";
 
 const BULLSEYE_INNER = 0.0127;
-const BULLSEYE_OUTER = 0.0318;
+const BULLSEYE_OUTER = 0.038;
 const TREBLE_INNER = 0.213;
-const TREBLE_OUTER = 0.231;
+const TREBLE_OUTER = 0.238;
 const DOUBLE_INNER = 0.355;
-const DOUBLE_OUTER = 0.391;
+const DOUBLE_OUTER = 0.375;
 
 const segmentToScore = {
   1: 13,
@@ -168,7 +168,7 @@ const Dartboard = () => {
         }`}
       >
         <h1>Player 1: {player1Score}</h1>
-        {player === 1 && <h4>{position}</h4>}
+        {player === 2 && <h4>{position}</h4>}
 
         <h3>Darts: {darts}</h3>
       </div>
@@ -194,7 +194,7 @@ const Dartboard = () => {
       >
         <h1>Player 2: {player2Score}</h1>
 
-        {player === 2 && <h4>{position}</h4>}
+        <h4>{position}</h4>
         <h3>Darts: {darts}</h3>
       </div>
     </div>
