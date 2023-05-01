@@ -168,7 +168,7 @@ const Dartboard = () => {
         }`}
       >
         <h1>Player 1: {player1Score}</h1>
-        {player === 2 && <h4>{position}</h4>}
+        <h4>{position}</h4>
 
         <h3>Darts: {darts}</h3>
       </div>

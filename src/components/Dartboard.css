@@ -1,7 +1,6 @@
 /* App.css */
 .scoreboard-container {
   display: flex;
-
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -15,29 +14,45 @@
   padding: 30px;
 }
 
-.play-1-scores {
-  height: 100%;
-  margin-top: 250px;
-}
-.play-1-scores h1 {
-  color: #c0c0c0;
-}
-.play-1-scores h3 {
-  color: #c0c0c0;
-}
-
+.play-1-scores,
 .play-2-scores {
   height: 100%;
   margin-top: 250px;
 }
 
-.play-2-scores h1 {
-  color: #c0c0c0;
-}
-.play-2-scores h3 {
+.play-1-scores h1,
+.play-2-scores h1,
+.play-1-scores h3,
+.play-2-scores h3,
+.play-1-scores h4,
+.play-2-scores h4 {
   color: #c0c0c0;
 }
 
 .active-player h1 {
   color: #008000;
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .scoreboard-container {
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .dartboard-container {
+    padding: 10px;
+  }
+
+  .play-1-scores,
+  .play-2-scores {
+    margin-top: 0;
+  }
+
+  .play-1-scores h1,
+  .play-2-scores h1,
+  .play-1-scores h3,
+  .play-2-scores h3 {
+    font-size: 1.2em;
+  }
 }
