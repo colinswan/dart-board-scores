@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { handleDartThrow } from "../helpers/dartboardHelpers";
 
-export const useDartboard = () => {
+const createInitialScores = (playerCount) => {
+  return Array.from({ length: playerCount }, (_, i) => [i + 1, 501]).reduce(
+    (acc, [player, score]) => ({ ...acc, [player]: score }),
+    {}
+  );
+};
+
+export const useDartboard = (playerCount, playerNames) => {
   const [player, setPlayer] = useState(1);
   const [darts, setDarts] = useState(3);
-  const [player1Score, setPlayer1Score] = useState(501);
-  const [player2Score, setPlayer2Score] = useState(501);
-  const [player1ScoreHistory, setPlayer1ScoreHistory] = useState([]);
-  const [player2ScoreHistory, setPlayer2ScoreHistory] = useState([]);
+
+  const [playerScores, setPlayerScores] = useState(
+    createInitialScores(playerCount)
+  );
+
+  // Update playerScores when playerCount changes
+  useEffect(() => {
+    setPlayerScores(createInitialScores(playerCount));
+  }, [playerCount]);
 
   const handleThrow = (positionValue) => {
     handleDartThrow(
@@ -16,24 +28,17 @@ export const useDartboard = () => {
       darts,
       setPlayer,
       setDarts,
-      player1Score,
-      player2Score,
-      player1ScoreHistory,
-      player2ScoreHistory,
-      setPlayer1Score,
-      setPlayer2Score,
-      setPlayer1ScoreHistory,
-      setPlayer2ScoreHistory
+      playerScores,
+      setPlayerScores,
+      playerCount,
+      playerNames
     );
   };
 
   return {
     player,
     darts,
-    player1Score,
-    player2Score,
-    player1ScoreHistory,
-    player2ScoreHistory,
+    playerScores,
     handleThrow,
   };
 };

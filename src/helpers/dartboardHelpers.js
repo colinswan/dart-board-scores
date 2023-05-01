@@ -27,15 +27,14 @@ const segmentToScore = {
   19: 10,
   20: 6,
 };
-export const getPositionValue = (distance, segment, rect) => {
-  let positionValue = 0;
 
+export const getPositionValue = (distance, segment, rect) => {
   if (distance <= BULLSEYE_INNER * rect.width) {
-    positionValue = 50;
+    return 50;
   } else if (distance <= BULLSEYE_OUTER * rect.width) {
-    positionValue = 25;
+    return 25;
   } else {
-    positionValue = segmentToScore[Math.abs(segment)] || 0;
+    let positionValue = segmentToScore[Math.abs(segment)] || 0;
 
     if (segment < 0) {
       positionValue -= 1;
@@ -45,59 +44,41 @@ export const getPositionValue = (distance, segment, rect) => {
       distance > TREBLE_INNER * rect.width &&
       distance <= TREBLE_OUTER * rect.width
     ) {
-      positionValue *= 3;
+      return positionValue * 3;
     } else if (
       distance > DOUBLE_INNER * rect.width &&
       distance <= DOUBLE_OUTER * rect.width
     ) {
-      positionValue *= 2;
+      return positionValue * 2;
     } else if (distance > DOUBLE_OUTER * rect.width) {
-      positionValue = 0;
+      return 0;
     }
-  }
 
-  return positionValue;
+    return positionValue;
+  }
 };
+
 export const handleDartThrow = (
   positionValue,
   player,
   darts,
   setPlayer,
   setDarts,
-  player1Score,
-  player2Score,
-  player1scoreHistory,
-  player2scoreHistory,
-  setPlayer1Score,
-  setPlayer2Score,
-  setPlayer1ScoreHistory,
-  setPlayer2ScoreHistory
+  playerScores,
+  setPlayerScores,
+  playerCount
 ) => {
   setDarts(darts - 1);
 
   if (darts === 1) {
-    setPlayer(player === 1 ? 2 : 1);
+    setPlayer(player === playerCount ? 1 : player + 1);
     setDarts(3);
   }
-  if (player === 1) {
-    setPlayer1Score(player1Score - positionValue);
-    setPlayer1ScoreHistory([...player1scoreHistory, positionValue]);
-    if (player1Score === 0) {
-      window.alert("Player 1 wins!");
-      setPlayer1Score(501);
-    } else if (player1Score < 0) {
-      window.alert("Bust!");
-      setPlayer1Score(player1scoreHistory.reduce((a, b) => a + b, 0));
-    }
-  } else {
-    setPlayer2Score(player2Score - positionValue);
-    setPlayer2ScoreHistory([...player2scoreHistory, positionValue]);
-    if (player2Score === 0) {
-      window.alert("Player 2 wins!");
-      setPlayer2Score(501);
-    } else if (player2Score < 0) {
-      window.alert("Bust!");
-      setPlayer2Score(player2scoreHistory.reduce((a, b) => a + b, 0));
-    }
+
+  const currentPlayerScore = playerScores[player];
+  const newScore = currentPlayerScore - positionValue;
+
+  if (newScore >= 0) {
+    setPlayerScores({ ...playerScores, [player]: newScore });
   }
 };
