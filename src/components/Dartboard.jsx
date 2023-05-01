@@ -22,10 +22,8 @@ const Dartboard = () => {
 
   const [playerCount, setPlayerCount] = useState(6);
 
-  const { player, darts, playerScores, handleThrow } = useDartboard(
-    playerCount,
-    playerNames
-  );
+  const { player, darts, playerScores, handleThrow, gameOver, resetGame } =
+    useDartboard(playerCount, playerNames);
 
   const handleClick = (e) => {
     const rect = dartboardRef.current.getBoundingClientRect();
@@ -101,6 +99,11 @@ const Dartboard = () => {
               initialPlayerCount={playerCount}
             />
           </PlayerSetupContainer>
+        )}
+        {gameOver && (
+          <button onClick={resetGame} style={{ margin: "1rem" }}>
+            Reset Game
+          </button>
         )}
       </ContentWrapper>
     </DartboardContainer>

@@ -17,6 +17,8 @@ export const useDartboard = (playerCount, playerNames) => {
   const [previousScores, setPreviousScores] = useState(
     initialScores(playerCount)
   );
+  const [remainingPlayers, setRemainingPlayers] = useState(playerCount);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     setPlayerScores(initialScores(playerCount));
@@ -28,9 +30,28 @@ export const useDartboard = (playerCount, playerNames) => {
     setDarts(3);
     setRoundScore(0);
   };
+  const removePlayer = (playerToRemove) => {
+    const newPlayerScores = { ...playerScores };
+    delete newPlayerScores[playerToRemove];
+    setPlayerScores(newPlayerScores);
+
+    const newPreviousScores = { ...previousScores };
+    delete newPreviousScores[playerToRemove];
+    setPreviousScores(newPreviousScores);
+
+    setRemainingPlayers(remainingPlayers - 1);
+  };
+
+  const resetGame = () => {
+    setPlayerScores(initialScores(playerCount));
+    setPlayer(1);
+    setDarts(3);
+    setRoundScore(0);
+    setGameOver(false);
+  };
 
   const handleThrow = (points) => {
-    if (darts === 0) return;
+    if (darts === 0 || gameOver) return;
 
     const newScore = playerScores[player] - points;
     const isDouble = points % 2 === 0 && points !== 50;
@@ -43,14 +64,22 @@ export const useDartboard = (playerCount, playerNames) => {
     }
 
     if (newScore === 0 && isDouble) {
-      toast.success(`${playerNames[player] || `Player ${player}`} WINS!`);
-      setPlayerScores(initialScores(playerCount));
-      setPlayer(1);
-      setDarts(3);
-      setRoundScore(0);
+      toast.success(
+        `${playerNames[player] || `Player ${player}`} WINS! Position: ${
+          playerCount - remainingPlayers + 2
+        }`
+      );
+      removePlayer(player);
+
+      if (remainingPlayers === 1) {
+        setGameOver(true);
+        toast.success("Game Over!");
+      } else {
+        nextPlayer();
+      }
+
       return;
     }
-
     if (newScore === 1 || (newScore === 0 && !isDouble)) {
       toast.error("BUSTED!!");
       setPlayerScores({ ...playerScores, [player]: previousScores[player] });
@@ -97,5 +126,7 @@ export const useDartboard = (playerCount, playerNames) => {
     darts,
     playerScores,
     handleThrow,
+    resetGame,
+    gameOver,
   };
 };
