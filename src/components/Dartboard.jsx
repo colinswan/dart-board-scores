@@ -31,6 +31,7 @@ const Dartboard = () => {
     gameOver,
     resetGame,
     remainingPlayers,
+    playerPositions,
   } = useDartboard(playerCount, playerNames);
 
   const handleNewGame = () => {
@@ -93,20 +94,21 @@ const Dartboard = () => {
               <GameOverTable>
                 <thead>
                   <tr>
+                    <th>Position</th>
                     <th>Player</th>
-                    <th>Score</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(playerScores)
+                  {Object.entries(playerPositions)
+                    .filter(([_, position]) => position !== null)
                     .sort((a, b) => a[1] - b[1])
-                    .map(([playerNumber, score]) => (
+                    .map(([playerNumber, position]) => (
                       <tr key={playerNumber}>
+                        <td>{position}</td>
                         <td>
                           {playerNames[playerNumber] ||
                             `Player ${playerNumber}`}
                         </td>
-                        <td>{score}</td>
                       </tr>
                     ))}
                 </tbody>

@@ -78,8 +78,6 @@ export const useDartboard = (playerCount, playerNames) => {
   };
 
   const handleThrow = (points) => {
-    // if (darts === 0 || gameOver || remainingPlayers === 1) return;
-    // Check if the current player has already finished
     if (playerPositions[player] !== null) {
       nextPlayer();
       return;
@@ -87,12 +85,6 @@ export const useDartboard = (playerCount, playerNames) => {
 
     const newScore = playerScores[player] - points;
     const isDouble = points % 2 === 0 && points !== 50;
-
-    // if (Object.values(playerScores).every((score) => score <= 0)) {
-    //   toast.success("Game Over!");
-    //   setGameOver(true);
-    //   return;
-    // }
 
     if (newScore < 0) {
       toast.error("BUSTED!!");
@@ -102,7 +94,8 @@ export const useDartboard = (playerCount, playerNames) => {
     }
 
     if (newScore === 0 && isDouble) {
-      const position = playerCount - remainingPlayers + 2;
+      const position =
+        Object.values(playerPositions).filter((pos) => pos !== null).length + 1;
       toast.success(
         `${
           playerNames[player] || `Player ${player}`
@@ -120,6 +113,7 @@ export const useDartboard = (playerCount, playerNames) => {
 
       return;
     }
+
     if (newScore === 1 || (newScore === 0 && !isDouble)) {
       toast.error("BUSTED!!");
       setPlayerScores({ ...playerScores, [player]: previousScores[player] });
@@ -168,5 +162,6 @@ export const useDartboard = (playerCount, playerNames) => {
     handleThrow,
     resetGame,
     gameOver,
+    playerPositions,
   };
 };
