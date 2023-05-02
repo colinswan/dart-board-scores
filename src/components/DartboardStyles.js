@@ -91,3 +91,6 @@ export const ScoreTable = styled.table`
     margin-top: 20px;
   }
 `;
+export const GameOverTable = styled(ScoreTable)`
+  // Add any additional styling if necessary
+`;

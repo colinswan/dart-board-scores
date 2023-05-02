@@ -18,10 +18,19 @@ export const useDartboard = (playerCount, playerNames) => {
     initialScores(playerCount)
   );
   const [remainingPlayers, setRemainingPlayers] = useState(playerCount);
+
+  console.log(playerCount);
+  console.log(remainingPlayers);
+
   const [gameOver, setGameOver] = useState(false);
+  console.log(gameOver);
 
   useEffect(() => {
     setPlayerScores(initialScores(playerCount));
+  }, [playerCount]);
+
+  useEffect(() => {
+    setRemainingPlayers(playerCount);
   }, [playerCount]);
 
   const nextPlayer = () => {
@@ -51,10 +60,16 @@ export const useDartboard = (playerCount, playerNames) => {
   };
 
   const handleThrow = (points) => {
-    if (darts === 0 || gameOver) return;
+    // if (darts === 0 || gameOver || remainingPlayers === 1) return;
 
     const newScore = playerScores[player] - points;
     const isDouble = points % 2 === 0 && points !== 50;
+
+    // if (Object.values(playerScores).every((score) => score <= 0)) {
+    //   toast.success("Game Over!");
+    //   setGameOver(true);
+    //   return;
+    // }
 
     if (newScore < 0) {
       toast.error("BUSTED!!");
@@ -72,8 +87,8 @@ export const useDartboard = (playerCount, playerNames) => {
       removePlayer(player);
 
       if (remainingPlayers === 1) {
-        setGameOver(true);
         toast.success("Game Over!");
+        setGameOver(true);
       } else {
         nextPlayer();
       }

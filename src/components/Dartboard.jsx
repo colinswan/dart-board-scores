@@ -12,7 +12,8 @@ import {
   DartboardContainer,
   PlayerScore,
   ScoreTable,
-} from "./DartboardStyles"; // Add this line
+  GameOverTable,
+} from "./DartboardStyles";
 
 const Dartboard = () => {
   const [position, setPosition] = useState(null);
@@ -22,10 +23,26 @@ const Dartboard = () => {
 
   const [playerCount, setPlayerCount] = useState(6);
 
-  const { player, darts, playerScores, handleThrow, gameOver, resetGame } =
-    useDartboard(playerCount, playerNames);
+  const {
+    player,
+    darts,
+    playerScores,
+    handleThrow,
+    gameOver,
+    resetGame,
+    remainingPlayers,
+  } = useDartboard(playerCount, playerNames);
+
+  const handleNewGame = () => {
+    setGameStarted(false);
+    resetGame();
+  };
 
   const handleClick = (e) => {
+    if (gameOver || remainingPlayers === 1) {
+      return;
+    }
+
     const rect = dartboardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -41,7 +58,6 @@ const Dartboard = () => {
     setPosition(positionValue);
     handleThrow(positionValue);
   };
-
   const handleStartGame = (playerCount, playerNames) => {
     setPlayerCount(playerCount);
     setPlayerNames(playerNames);
@@ -73,24 +89,48 @@ const Dartboard = () => {
             >
               <image href={dartboardSvg} width="400" height="400" />
             </svg>
-            <ScoreTable>
-              <thead>
-                <tr>
-                  <th>Player</th>
-                  <th>Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(playerScores).map(([playerNumber, score]) => (
-                  <tr key={playerNumber}>
-                    <td>
-                      {playerNames[playerNumber] || `Player ${playerNumber}`}
-                    </td>
-                    <td>{score}</td>
+            {gameOver ? (
+              <GameOverTable>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Score</th>
                   </tr>
-                ))}
-              </tbody>
-            </ScoreTable>
+                </thead>
+                <tbody>
+                  {Object.entries(playerScores)
+                    .sort((a, b) => a[1] - b[1])
+                    .map(([playerNumber, score]) => (
+                      <tr key={playerNumber}>
+                        <td>
+                          {playerNames[playerNumber] ||
+                            `Player ${playerNumber}`}
+                        </td>
+                        <td>{score}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </GameOverTable>
+            ) : (
+              <ScoreTable>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(playerScores).map(([playerNumber, score]) => (
+                    <tr key={playerNumber}>
+                      <td>
+                        {playerNames[playerNumber] || `Player ${playerNumber}`}
+                      </td>
+                      <td>{score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </ScoreTable>
+            )}
           </>
         ) : (
           <PlayerSetupContainer>
@@ -101,11 +141,14 @@ const Dartboard = () => {
           </PlayerSetupContainer>
         )}
         {gameOver && (
-          <button onClick={resetGame} style={{ margin: "1rem" }}>
-            Reset Game
-          </button>
+          <>
+            <button onClick={resetGame} style={{ margin: "1rem" }}>
+              Reset Game
+            </button>
+          </>
         )}
       </ContentWrapper>
+      <button onClick={handleNewGame}>New Game</button>
     </DartboardContainer>
   );
 };
