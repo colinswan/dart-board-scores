@@ -1,5 +1,5 @@
 import Dartboard from "./components/Dartboard";
-
+import "./App.css";
 
 const App = () => {
   return (

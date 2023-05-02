@@ -1,13 +1,24 @@
 import styled, { css } from "styled-components";
 
+export const DartboardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  height: 100%;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
+
 export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(
-    100% - 60px
-  ); // Adjust this value as needed to fit your desired layout
+  height: fit-content;
 `;
 
 export const ScoreboardContainer = styled.div`
@@ -26,18 +37,6 @@ export const PlayerSetupContainer = styled.div`
   overflow: hidden;
 `;
 
-export const DartboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-`;
-
 export const PlayerScore = styled.div`
   padding: 20px;
   margin-top: 20px;
@@ -47,14 +46,14 @@ export const PlayerScore = styled.div`
   h1,
   h3,
   h4 {
-    color: #c0c0c0;
+    color: #fff;
   }
 
   ${(props) =>
     props.active &&
     css`
       h1 {
-        color: #008000;
+        color: #fff;
       }
     `}
 

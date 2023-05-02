@@ -93,13 +93,27 @@ export const useDartboard = (playerCount, playerNames) => {
       return;
     }
 
+    let winMessage = "";
+
+    const position =
+      Object.values(playerPositions).filter((pos) => pos !== null).length + 1;
     if (newScore === 0 && isDouble) {
-      const position =
-        Object.values(playerPositions).filter((pos) => pos !== null).length + 1;
+      if (position === 1) {
+        winMessage = "Winner!! 🏆";
+      } else if (position === 2) {
+        winMessage = "Runner Up!! 🥈";
+      } else if (position === 3) {
+        winMessage = "Third Place!! 🥉";
+      } else if (position === 4) {
+        winMessage = "Fourth Place!! 4️⃣";
+      } else if (position === 5) {
+        winMessage = "Fifth Place!! 5️⃣";
+      } else if (position === 6) {
+        winMessage = "Last Place!! 💩";
+      }
+
       toast.success(
-        `${
-          playerNames[player] || `Player ${player}`
-        } WINS! Position: ${position}`
+        `${playerNames[player] || `Player ${player}`} '${winMessage}`
       );
       setPlayerPositions({ ...playerPositions, [player]: position });
       removePlayer(player);

@@ -13,11 +13,18 @@ const SetupContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+  height: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h1`
   margin-bottom: 20px;
-  color: #008000;
+  color: #fff;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -50,6 +57,7 @@ const StartGameButton = styled.button`
   padding: 8px 16px;
   cursor: pointer;
   margin-left: auto;
+  margin-bottom: 20px;
 
   &:hover {
     background-color: #006400;
