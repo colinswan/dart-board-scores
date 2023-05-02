@@ -13,6 +13,8 @@ import {
   PlayerScore,
   ScoreTable,
   GameOverTable,
+  NewGameButton,
+  ResetGameButton,
 } from "./DartboardStyles";
 
 const Dartboard = () => {
@@ -72,14 +74,16 @@ const Dartboard = () => {
           <>
             <ToastContainer />
             <ScoreboardContainer>
-              <PlayerScore active={true}>
-                <h1>
-                  {playerNames[player] || `Player ${player}`}:{" "}
-                  {playerScores[player]}
-                </h1>
-                <h4>Dart Point: {position}</h4>
-                <h3>Darts Left: {darts}</h3>
-              </PlayerScore>
+              {!gameOver && (
+                <PlayerScore active={true}>
+                  <h1>
+                    {playerNames[player] || `Player ${player}`}:{" "}
+                    {playerScores[player]}
+                  </h1>
+                  <h4>Dart Point: {position}</h4>
+                  <h3>Darts Left: {darts}</h3>
+                </PlayerScore>
+              )}
             </ScoreboardContainer>
             <svg
               ref={dartboardRef}
@@ -144,13 +148,13 @@ const Dartboard = () => {
         )}
         {gameOver && (
           <>
-            <button onClick={resetGame} style={{ margin: "1rem" }}>
+            <ResetGameButton onClick={resetGame} style={{ margin: "1rem" }}>
               Reset Game
-            </button>
+            </ResetGameButton>
           </>
         )}
+        <NewGameButton onClick={handleNewGame}>New Game</NewGameButton>
       </ContentWrapper>
-      <button onClick={handleNewGame}>New Game</button>
     </DartboardContainer>
   );
 };
