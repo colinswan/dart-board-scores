@@ -1,68 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import dartboardSvg from "../assets/dartboard.svg";
-
-const SetupContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  height: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h1`
-  margin-bottom: 20px;
-  color: #fff;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-  min-height: 300px;
-  margin-top: 20px;
-`;
-
-const SetupLabel = styled.label`
-  margin-bottom: 10px;
-`;
-
-const PlayerNameContainer = styled.div`
-  margin-bottom: 10px;
-
-  input {
-    border-radius: 5px;
-    border: none;
-  }
-`;
-
-const StartGameButton = styled.button`
-  background-color: #008000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 16px;
-  cursor: pointer;
-  margin-left: auto;
-  margin-bottom: 20px;
-
-  &:hover {
-    background-color: #006400;
-  }
-`;
+import {
+  SetupContainer,
+  Title,
+  InputContainer,
+  SetupLabel,
+  PlayerNameContainer,
+  StartGameButton,
+} from "./PlayerSetupStyles";
 
 const PlayerSetup = ({ onStart, initialPlayerCount }) => {
   const [playerCount, setPlayerCount] = useState(initialPlayerCount);

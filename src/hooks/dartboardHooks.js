@@ -30,11 +30,7 @@ export const useDartboard = (playerCount, playerNames) => {
   );
   const [remainingPlayers, setRemainingPlayers] = useState(playerCount);
 
-  console.log(playerCount);
-  console.log(remainingPlayers);
-
   const [gameOver, setGameOver] = useState(false);
-  console.log(gameOver);
 
   useEffect(() => {
     setPlayerScores(initialScores(playerCount));
