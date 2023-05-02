@@ -8,12 +8,23 @@ const initialScores = (playerCount) => {
   }
   return scores;
 };
+const initialPlayerPositions = (playerCount) => {
+  const positions = {};
+  for (let i = 1; i <= playerCount; i++) {
+    positions[i] = null;
+  }
+  return positions;
+};
 
 export const useDartboard = (playerCount, playerNames) => {
   const [playerScores, setPlayerScores] = useState(initialScores(playerCount));
   const [player, setPlayer] = useState(1);
   const [darts, setDarts] = useState(3);
   const [roundScore, setRoundScore] = useState(0);
+  const [playerPositions, setPlayerPositions] = useState(
+    initialPlayerPositions(playerCount)
+  );
+
   const [previousScores, setPreviousScores] = useState(
     initialScores(playerCount)
   );
@@ -34,7 +45,13 @@ export const useDartboard = (playerCount, playerNames) => {
   }, [playerCount]);
 
   const nextPlayer = () => {
-    const newPlayer = player === playerCount ? 1 : player + 1;
+    let newPlayer = player;
+
+    // Keep incrementing the player until we find an unfinished player
+    do {
+      newPlayer = newPlayer === playerCount ? 1 : newPlayer + 1;
+    } while (playerPositions[newPlayer] !== null);
+
     setPlayer(newPlayer);
     setDarts(3);
     setRoundScore(0);
@@ -54,6 +71,7 @@ export const useDartboard = (playerCount, playerNames) => {
   const resetGame = () => {
     setPlayerScores(initialScores(playerCount));
     setPlayer(1);
+    setPlayerPositions(initialPlayerPositions(playerCount));
     setDarts(3);
     setRoundScore(0);
     setGameOver(false);
@@ -61,6 +79,11 @@ export const useDartboard = (playerCount, playerNames) => {
 
   const handleThrow = (points) => {
     // if (darts === 0 || gameOver || remainingPlayers === 1) return;
+    // Check if the current player has already finished
+    if (playerPositions[player] !== null) {
+      nextPlayer();
+      return;
+    }
 
     const newScore = playerScores[player] - points;
     const isDouble = points % 2 === 0 && points !== 50;
@@ -79,11 +102,13 @@ export const useDartboard = (playerCount, playerNames) => {
     }
 
     if (newScore === 0 && isDouble) {
+      const position = playerCount - remainingPlayers + 2;
       toast.success(
-        `${playerNames[player] || `Player ${player}`} WINS! Position: ${
-          playerCount - remainingPlayers + 2
-        }`
+        `${
+          playerNames[player] || `Player ${player}`
+        } WINS! Position: ${position}`
       );
+      setPlayerPositions({ ...playerPositions, [player]: position });
       removePlayer(player);
 
       if (remainingPlayers === 1) {
