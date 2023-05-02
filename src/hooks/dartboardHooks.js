@@ -113,7 +113,6 @@ export const useDartboard = (playerCount, playerNames) => {
 
       return;
     }
-
     if (newScore === 1 || (newScore === 0 && !isDouble)) {
       toast.error("BUSTED!!");
       setPlayerScores({ ...playerScores, [player]: previousScores[player] });
