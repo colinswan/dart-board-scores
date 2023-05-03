@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import dartboardSvg from "../assets/dartboard.svg";
 import {
   SetupContainer,
@@ -46,12 +45,13 @@ const PlayerSetup = ({ onStart, initialPlayerCount }) => {
         </SetupLabel>
         {[...Array(playerCount)].map((_, i) => (
           <PlayerNameContainer key={i + 1}>
-            <label>
+            <label htmlFor={`playerName${i}`}>
               Player {i + 1} name:
               <input
                 type="text"
                 value={playerNames[i + 1] || ""}
                 onChange={(e) => handlePlayerNameChange(i + 1, e)}
+                id={`playerName${i}`}
               />
             </label>
           </PlayerNameContainer>
@@ -60,11 +60,6 @@ const PlayerSetup = ({ onStart, initialPlayerCount }) => {
       </InputContainer>
     </SetupContainer>
   );
-};
-
-PlayerSetup.propTypes = {
-  onStart: PropTypes.func.isRequired,
-  initialPlayerCount: PropTypes.number.isRequired,
 };
 
 export default PlayerSetup;

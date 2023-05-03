@@ -1,21 +1,21 @@
 import { useState, useRef } from "react";
 import dartboardSvg from "../assets/dartboard.svg";
-import { getPositionValue } from "../helpers/dartboardHelpers";
 import { useDartboard } from "../hooks/dartboardHooks";
 import PlayerSetup from "./PlayerSetup";
+import GameStatus from "./GameStatus";
+import GameOver from "./GameOver";
+import { useHandleClick } from "../hooks/useHandleClick";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   ContentWrapper,
-  ScoreboardContainer,
+  PlayerSetContainer,
   PlayerSetupContainer,
-  DartboardContainer,
-  PlayerScore,
+  Container,
   ScoreTable,
-  GameOverTable,
   NewGameButton,
   ResetGameButton,
-  UndoButton,
 } from "./DartboardStyles";
 
 const Dartboard = () => {
@@ -36,33 +36,21 @@ const Dartboard = () => {
     remainingPlayers,
     playerPositions,
     handleUndo,
-  } = useDartboard(playerCount, playerNames);
+  } = useDartboard(playerCount, playerNames, setPosition);
 
   const handleNewGame = () => {
     setGameStarted(false);
     resetGame();
   };
 
-  const handleClick = (e) => {
-    if (gameOver || remainingPlayers === 1) {
-      return;
-    }
+  const handleClick = useHandleClick(
+    dartboardRef,
+    handleThrow,
+    gameOver,
+    remainingPlayers,
+    setPosition
+  );
 
-    const rect = dartboardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const x = e.clientX - centerX;
-    const y = centerY - e.clientY;
-
-    const angle = (Math.atan2(y, x) * 180) / Math.PI;
-    const distance = Math.sqrt(x * x + y * y);
-    const normalizedAngle = ((angle + 360) % 360) - 9;
-    const segment = Math.ceil(normalizedAngle / 18);
-
-    const positionValue = getPositionValue(distance, segment, rect);
-    setPosition(positionValue);
-    handleThrow(positionValue);
-  };
   const handleStartGame = (playerCount, playerNames) => {
     setPlayerCount(playerCount);
     setPlayerNames(playerNames);
@@ -70,27 +58,24 @@ const Dartboard = () => {
   };
 
   return (
-    <DartboardContainer>
+    <Container>
       <ContentWrapper>
         {gameStarted ? (
           <>
             <ToastContainer />
-            <ScoreboardContainer>
-              {!gameOver && (
-                <PlayerScore active={true}>
-                  <h1>
-                    {playerNames[player] || `Player ${player}`}:{" "}
-                    {playerScores[player]}
-                  </h1>
-                  <h4>Dart Point: {position}</h4>
-                  <h3>Darts Left: {darts}</h3>
-                  <UndoButton onClick={handleUndo} style={{ margin: "1rem" }}>
-                    Undo Last point
-                  </UndoButton>
-                </PlayerScore>
-              )}
-            </ScoreboardContainer>
+            <PlayerSetContainer>
+              <GameStatus
+                gameOver={gameOver}
+                player={player}
+                playerNames={playerNames}
+                playerScores={playerScores}
+                position={position}
+                darts={darts}
+                handleUndo={handleUndo}
+              />
+            </PlayerSetContainer>
             <svg
+              aria-label="Dartboard"
               ref={dartboardRef}
               width="400"
               height="400"
@@ -99,29 +84,12 @@ const Dartboard = () => {
             >
               <image href={dartboardSvg} width="400" height="400" />
             </svg>
+
             {gameOver ? (
-              <GameOverTable>
-                <thead>
-                  <tr>
-                    <th>Position</th>
-                    <th>Player</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(playerPositions)
-                    .filter(([_, position]) => position !== null)
-                    .sort((a, b) => a[1] - b[1])
-                    .map(([playerNumber, position]) => (
-                      <tr key={playerNumber}>
-                        <td>{position}</td>
-                        <td>
-                          {playerNames[playerNumber] ||
-                            `Player ${playerNumber}`}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </GameOverTable>
+              <GameOver
+                playerPositions={playerPositions}
+                playerNames={playerNames}
+              />
             ) : (
               <ScoreTable>
                 <thead>
@@ -142,6 +110,7 @@ const Dartboard = () => {
                 </tbody>
               </ScoreTable>
             )}
+            <NewGameButton onClick={handleNewGame}>New Game</NewGameButton>
           </>
         ) : (
           <PlayerSetupContainer>
@@ -158,9 +127,8 @@ const Dartboard = () => {
             </ResetGameButton>
           </>
         )}
-        <NewGameButton onClick={handleNewGame}>New Game</NewGameButton>
       </ContentWrapper>
-    </DartboardContainer>
+    </Container>
   );
 };
 

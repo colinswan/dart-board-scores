@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css?family=Fredoka+One&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Oswald&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
@@ -63,4 +62,8 @@ html {
 
 body {
   background-attachment: fixed;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }

@@ -35,6 +35,11 @@ export const useDartboard = (playerCount, playerNames) => {
 
   useEffect(() => {
     setPlayerScores(initialScores(playerCount));
+    setPlayerPositions(initialPlayerPositions(playerCount));
+  }, [playerCount]);
+
+  useEffect(() => {
+    setPlayerScores(initialScores(playerCount));
   }, [playerCount]);
 
   useEffect(() => {

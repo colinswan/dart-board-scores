@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const DartboardContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +21,7 @@ export const ContentWrapper = styled.div`
   height: fit-content;
 `;
 
-export const ScoreboardContainer = styled.div`
+export const PlayerSetContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,8 +32,9 @@ export const ScoreboardContainer = styled.div`
     justify-content: space-around;
   }
 `;
+
 export const PlayerSetupContainer = styled.div`
-  height: 150px; // Adjust this value as needed to fix the height of the container
+  min-height: 150px;
   overflow: hidden;
 `;
 
