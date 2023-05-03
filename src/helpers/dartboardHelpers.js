@@ -1,3 +1,4 @@
+// Constants for dartboard scoring zones
 const BULLSEYE_INNER = 0.0127;
 const BULLSEYE_OUTER = 0.038;
 const TREBLE_INNER = 0.213;
@@ -5,6 +6,7 @@ const TREBLE_OUTER = 0.238;
 const DOUBLE_INNER = 0.355;
 const DOUBLE_OUTER = 0.375;
 
+// Mapping of dartboard segments to scores
 const segmentToScore = {
   1: 13,
   2: 4,
@@ -28,6 +30,7 @@ const segmentToScore = {
   20: 6,
 };
 
+// Function to get the score of a dart throw based on its position
 export const getPositionValue = (distance, segment, rect) => {
   if (distance <= BULLSEYE_INNER * rect.width) {
     return 50;
@@ -58,6 +61,7 @@ export const getPositionValue = (distance, segment, rect) => {
   }
 };
 
+// Function to handle a dart throw and update player scores and turns
 export const handleDartThrow = (
   positionValue,
   player,

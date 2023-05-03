@@ -26,6 +26,7 @@ const Dartboard = () => {
 
   const [playerCount, setPlayerCount] = useState(6);
 
+  // Custom hook to manage dartboard game logic
   const {
     player,
     darts,
@@ -38,11 +39,13 @@ const Dartboard = () => {
     handleUndo,
   } = useDartboard(playerCount, playerNames, setPosition);
 
+  // Start a new game
   const handleNewGame = () => {
     setGameStarted(false);
     resetGame();
   };
 
+  // Custom hook to handle dartboard click events
   const handleClick = useHandleClick(
     dartboardRef,
     handleThrow,
@@ -51,6 +54,7 @@ const Dartboard = () => {
     setPosition
   );
 
+  // Start the game with the specified player count and names
   const handleStartGame = (playerCount, playerNames) => {
     setPlayerCount(playerCount);
     setPlayerNames(playerNames);
@@ -60,10 +64,12 @@ const Dartboard = () => {
   return (
     <Container>
       <ContentWrapper>
+        {/*Render game components if the game has started */}
         {gameStarted ? (
           <>
             <ToastContainer />
             <PlayerSetContainer>
+              {/* Display the current player's status and score */}
               <GameStatus
                 gameOver={gameOver}
                 player={player}
@@ -74,6 +80,7 @@ const Dartboard = () => {
                 handleUndo={handleUndo}
               />
             </PlayerSetContainer>
+            {/* Render the dartboard */}
             <svg
               aria-label="Dartboard"
               ref={dartboardRef}
@@ -85,6 +92,7 @@ const Dartboard = () => {
               <image href={dartboardSvg} width="400" height="400" />
             </svg>
 
+            {/* Render game over component or score table */}
             {gameOver ? (
               <GameOver
                 playerPositions={playerPositions}
@@ -99,6 +107,7 @@ const Dartboard = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {/* Display scores for all players */}
                   {Object.entries(playerScores).map(([playerNumber, score]) => (
                     <tr key={playerNumber}>
                       <td>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
+// Helper function to initialize player scores
 const initialScores = (playerCount) => {
   const scores = {};
   for (let i = 1; i <= playerCount; i++) {
@@ -8,6 +9,8 @@ const initialScores = (playerCount) => {
   }
   return scores;
 };
+
+// Helper function to initialize player positions
 const initialPlayerPositions = (playerCount) => {
   const positions = {};
   for (let i = 1; i <= playerCount; i++) {
@@ -16,6 +19,7 @@ const initialPlayerPositions = (playerCount) => {
   return positions;
 };
 
+// Custom hook for managing dartboard state and functionality
 export const useDartboard = (playerCount, playerNames) => {
   const [playerScores, setPlayerScores] = useState(initialScores(playerCount));
   const [player, setPlayer] = useState(1);
@@ -33,19 +37,18 @@ export const useDartboard = (playerCount, playerNames) => {
 
   const [gameOver, setGameOver] = useState(false);
 
+  // Reset player scores and positions when playerCount changes
   useEffect(() => {
     setPlayerScores(initialScores(playerCount));
     setPlayerPositions(initialPlayerPositions(playerCount));
   }, [playerCount]);
 
-  useEffect(() => {
-    setPlayerScores(initialScores(playerCount));
-  }, [playerCount]);
-
+  // Reset remaining players when playerCount changes
   useEffect(() => {
     setRemainingPlayers(playerCount);
   }, [playerCount]);
 
+  // Function to move to the next player's turn
   const nextPlayer = () => {
     let newPlayer = player;
 
@@ -58,6 +61,8 @@ export const useDartboard = (playerCount, playerNames) => {
     setDarts(3);
     setRoundScore(0);
   };
+
+  // Function to remove a player from the game
   const removePlayer = (playerToRemove) => {
     const newPlayerScores = { ...playerScores };
     delete newPlayerScores[playerToRemove];
@@ -70,6 +75,7 @@ export const useDartboard = (playerCount, playerNames) => {
     setRemainingPlayers(remainingPlayers - 1);
   };
 
+  // Function to reset the game state
   const resetGame = () => {
     setPlayerScores(initialScores(playerCount));
     setPlayer(1);
@@ -79,6 +85,7 @@ export const useDartboard = (playerCount, playerNames) => {
     setGameOver(false);
   };
 
+  // Function to handle dart throws
   const handleThrow = (points) => {
     if (playerPositions[player] !== null) {
       nextPlayer();
@@ -177,6 +184,8 @@ export const useDartboard = (playerCount, playerNames) => {
       nextPlayer();
     }
   };
+
+  // Function to undo the last action
   const handleUndo = () => {
     if (previousPlayerState) {
       setPlayer(previousPlayerState.player);

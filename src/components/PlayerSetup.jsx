@@ -9,19 +9,23 @@ import {
   StartGameButton,
 } from "./PlayerSetupStyles";
 
+// PlayerSetup component for setting up the game with player count and names
 const PlayerSetup = ({ onStart, initialPlayerCount }) => {
   const [playerCount, setPlayerCount] = useState(initialPlayerCount);
   const [playerNames, setPlayerNames] = useState({});
 
+  // Handle change in player count
   const handlePlayerCountChange = (e) => {
     setPlayerCount(parseInt(e.target.value));
     setPlayerNames({});
   };
 
+  // Handle change in player names
   const handlePlayerNameChange = (player, e) => {
     setPlayerNames({ ...playerNames, [player]: e.target.value });
   };
 
+  // Start the game with the given player count and names
   const startGame = () => {
     onStart(playerCount, playerNames);
   };

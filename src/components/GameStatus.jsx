@@ -1,5 +1,6 @@
 import { PlayerScore, UndoButton } from "./DartboardStyles";
 
+// GameStatus component displays the current game status, including player score, dart point, darts left, and an undo button
 const GameStatus = ({
   gameOver,
   player,
@@ -9,6 +10,7 @@ const GameStatus = ({
   darts,
   handleUndo,
 }) => {
+  // If the game is over, don't display the GameStatus component
   if (gameOver) return null;
 
   return (
