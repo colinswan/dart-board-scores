@@ -2,6 +2,9 @@
 
 Dartboard Scoreboard is a web application that helps you keep track of your 501 dart game scores. The app allows you to easily manage multiple players and their scores in a user-friendly interface. With a dartboard SVG image that detects where the user clicks, this application provides an interactive way to record your real-world dart scores.
 
+[**View the live demo here**](https://sage-hummingbird-20d511.netlify.app/)
+
+
 ## Features
 
 - Support for up to 6 players
