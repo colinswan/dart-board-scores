@@ -24,6 +24,7 @@ export const useDartboard = (playerCount, playerNames) => {
   const [playerPositions, setPlayerPositions] = useState(
     initialPlayerPositions(playerCount)
   );
+  const [previousPlayerState, setPreviousPlayerState] = useState(null);
 
   const [previousScores, setPreviousScores] = useState(
     initialScores(playerCount)
@@ -78,6 +79,14 @@ export const useDartboard = (playerCount, playerNames) => {
       nextPlayer();
       return;
     }
+
+    setPreviousPlayerState({
+      player,
+      darts,
+      playerScores,
+      previousScores,
+      roundScore,
+    });
 
     const newScore = playerScores[player] - points;
     const isDouble = points % 2 === 0 && points !== 50;
@@ -163,6 +172,18 @@ export const useDartboard = (playerCount, playerNames) => {
       nextPlayer();
     }
   };
+  const handleUndo = () => {
+    if (previousPlayerState) {
+      setPlayer(previousPlayerState.player);
+      setDarts(previousPlayerState.darts);
+      setPlayerScores(previousPlayerState.playerScores);
+      setPreviousScores(previousPlayerState.previousScores);
+      setRoundScore(previousPlayerState.roundScore);
+      setPreviousPlayerState(null);
+    } else {
+      toast.warning("No previous action to undo");
+    }
+  };
 
   return {
     player,
@@ -172,5 +193,6 @@ export const useDartboard = (playerCount, playerNames) => {
     resetGame,
     gameOver,
     playerPositions,
+    handleUndo,
   };
 };

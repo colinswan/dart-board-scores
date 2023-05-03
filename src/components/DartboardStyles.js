@@ -122,3 +122,17 @@ export const ResetGameButton = styled(NewGameButton)`
     background-color: #006400;
   }
 `;
+
+export const UndoButton = styled(NewGameButton)`
+  background-color: #008000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-left: auto;
+
+  &:hover {
+    background-color: #006400;
+  }
+`;

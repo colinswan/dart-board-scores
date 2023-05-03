@@ -15,6 +15,7 @@ import {
   GameOverTable,
   NewGameButton,
   ResetGameButton,
+  UndoButton,
 } from "./DartboardStyles";
 
 const Dartboard = () => {
@@ -34,6 +35,7 @@ const Dartboard = () => {
     resetGame,
     remainingPlayers,
     playerPositions,
+    handleUndo,
   } = useDartboard(playerCount, playerNames);
 
   const handleNewGame = () => {
@@ -82,6 +84,9 @@ const Dartboard = () => {
                   </h1>
                   <h4>Dart Point: {position}</h4>
                   <h3>Darts Left: {darts}</h3>
+                  <UndoButton onClick={handleUndo} style={{ margin: "1rem" }}>
+                    Undo Last point
+                  </UndoButton>
                 </PlayerScore>
               )}
             </ScoreboardContainer>
