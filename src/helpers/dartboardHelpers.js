@@ -30,6 +30,24 @@ const segmentToScore = {
   20: 6,
 };
 
+// Helper function to initialize player scores
+export const initialScores = (playerCount) => {
+  const scores = {};
+  for (let i = 1; i <= playerCount; i++) {
+    scores[i] = 501;
+  }
+  return scores;
+};
+
+// Helper function to initialize player positions
+export const initialPlayerPositions = (playerCount) => {
+  const positions = {};
+  for (let i = 1; i <= playerCount; i++) {
+    positions[i] = null;
+  }
+  return positions;
+};
+
 // Function to get the score of a dart throw based on its position
 export const getPositionValue = (distance, segment, rect) => {
   if (distance <= BULLSEYE_INNER * rect.width) {
