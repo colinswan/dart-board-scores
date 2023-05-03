@@ -1,23 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
-// Helper function to initialize player scores
-const initialScores = (playerCount) => {
-  const scores = {};
-  for (let i = 1; i <= playerCount; i++) {
-    scores[i] = 501;
-  }
-  return scores;
-};
-
-// Helper function to initialize player positions
-const initialPlayerPositions = (playerCount) => {
-  const positions = {};
-  for (let i = 1; i <= playerCount; i++) {
-    positions[i] = null;
-  }
-  return positions;
-};
+import {
+  initialScores,
+  initialPlayerPositions,
+} from "../helpers/dartboardHelpers";
 
 // Custom hook for managing dartboard state and functionality
 export const useDartboard = (playerCount, playerNames) => {
