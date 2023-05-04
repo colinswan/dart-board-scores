@@ -7,7 +7,9 @@ export const useHandleClick = (
   handleThrow, // Function to handle dart throws
   gameOver, // Boolean indicating if the game is over
   remainingPlayers, // Number of remaining players in the game
-  setPosition // Function to set the position value of the dart throw
+  setPosition, // Function to set the position value of the dart throw
+  position,
+  setPositionHistory // Function to set the position history of the dart throw
 ) => {
   // useCallback ensures that the returned function's reference stays the same
   // between renders, preventing unnecessary re-renders
@@ -39,9 +41,18 @@ export const useHandleClick = (
       const positionValue = getPositionValue(distance, segment, rect);
       // Set the position value and handle the dart throw
       setPosition(positionValue);
+      setPositionHistory((prevHistory) => [...prevHistory, position]); // Add the position to the position history
       handleThrow(positionValue);
     },
     // Declare the hook's dependencies to prevent unnecessary updates
-    [dartboardRef, handleThrow, gameOver, remainingPlayers, setPosition]
+    [
+      dartboardRef,
+      handleThrow,
+      gameOver,
+      remainingPlayers,
+      setPosition,
+      position,
+      setPositionHistory,
+    ]
   );
 };

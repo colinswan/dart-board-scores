@@ -6,7 +6,12 @@ import {
 } from "../helpers/dartboardHelpers";
 
 // Custom hook for managing dartboard state and functionality
-export const useDartboard = (playerCount, playerNames) => {
+export const useDartboard = (
+  playerCount,
+  playerNames,
+  setPosition,
+  positionHistory
+) => {
   const [playerScores, setPlayerScores] = useState(initialScores(playerCount));
   const [player, setPlayer] = useState(1);
   const [darts, setDarts] = useState(3);
@@ -180,6 +185,8 @@ export const useDartboard = (playerCount, playerNames) => {
       setPreviousScores(previousPlayerState.previousScores);
       setRoundScore(previousPlayerState.roundScore);
       setPreviousPlayerState(null);
+      // setPosition to the last positionHistory
+      setPosition(positionHistory.slice(-1)[0]);
     } else {
       toast.warning("No previous action to undo");
     }
@@ -194,5 +201,6 @@ export const useDartboard = (playerCount, playerNames) => {
     gameOver,
     playerPositions,
     handleUndo,
+    positionHistory,
   };
 };
