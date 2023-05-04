@@ -83,6 +83,7 @@ export const useDartboard = (
     setDarts(3);
     setRoundScore(0);
     setGameOver(false);
+    setRemainingPlayers(playerCount);
   };
 
   // Function to handle dart throws
@@ -91,20 +92,6 @@ export const useDartboard = (
       nextPlayer();
       return;
     }
-    console.log(
-      `Player: ${player}, Darts: ${darts}, Points: ${points}, Remaining Players: ${remainingPlayers}, Game Over: ${gameOver}`
-    );
-    // Calculate the number of remaining players
-    // const remainingPlayers = Object.values(playerPositions).filter(
-    //   (pos) => pos === null
-    // ).length;
-
-    // if (remainingPlayers === 1) {
-    //   toast.success("Game Over!");
-    //   setGameOver(true);
-    // } else {
-    //   nextPlayer();
-    // }
 
     setPreviousPlayerState({
       player,

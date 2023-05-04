@@ -15,9 +15,6 @@ export const useHandleClick = (
   // between renders, preventing unnecessary re-renders
   return useCallback(
     (e) => {
-      console.log("gameOver:", gameOver);
-      console.log("remainingPlayers:", remainingPlayers);
-
       // If the game is over or there's only one player remaining, do nothing
       if (gameOver || remainingPlayers === 1) {
         return;

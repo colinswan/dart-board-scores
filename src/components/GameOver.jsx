@@ -2,6 +2,7 @@ import { GameOverTable } from "./DartboardStyles";
 
 // GameOver component displays a table with the final positions of the players and their names
 const GameOver = ({ playerPositions, playerNames }) => {
+  console.log(playerPositions);
   return (
     <GameOverTable>
       <thead>
