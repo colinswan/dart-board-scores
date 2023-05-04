@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import dartboardSvg from "../assets/dartboard.svg";
 import { useDartboard } from "../hooks/dartboardHooks";
 import PlayerSetup from "./PlayerSetup";
@@ -19,8 +19,8 @@ import {
 } from "./DartboardStyles";
 
 const Dartboard = () => {
-  const [position, setPosition] = useState(null);
-  const [positionHistory, setPositionHistory] = useState([]); // Array of positions for the current throw
+  const [dartPosition, setDartPosition] = useState(null); // Current dart position
+  const [dartPositionHistory, setDartPositionHistory] = useState([]); // Array of positions for the current throw
   const dartboardRef = useRef(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [playerNames, setPlayerNames] = useState({});
@@ -38,7 +38,12 @@ const Dartboard = () => {
     remainingPlayers,
     playerPositions,
     handleUndo,
-  } = useDartboard(playerCount, playerNames, setPosition, positionHistory);
+  } = useDartboard(
+    playerCount,
+    playerNames,
+    setDartPosition,
+    dartPositionHistory
+  );
 
   // Start a new game
   const handleNewGame = () => {
@@ -52,9 +57,9 @@ const Dartboard = () => {
     handleThrow,
     gameOver,
     remainingPlayers,
-    setPosition,
-    position,
-    setPositionHistory
+    setDartPosition,
+    dartPosition,
+    setDartPositionHistory
   );
 
   // Start the game with the specified player count and names
@@ -78,7 +83,7 @@ const Dartboard = () => {
                 player={player}
                 playerNames={playerNames}
                 playerScores={playerScores}
-                position={position}
+                dartPosition={dartPosition}
                 darts={darts}
                 handleUndo={handleUndo}
               />

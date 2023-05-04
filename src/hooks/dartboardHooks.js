@@ -10,7 +10,7 @@ export const useDartboard = (
   playerCount,
   playerNames,
   setPosition,
-  positionHistory
+  dartPositionHistory
 ) => {
   const [playerScores, setPlayerScores] = useState(initialScores(playerCount));
   const [player, setPlayer] = useState(1);
@@ -54,16 +54,25 @@ export const useDartboard = (
   };
 
   // Function to remove a player from the game
+
   const removePlayer = (playerToRemove) => {
-    const newPlayerScores = { ...playerScores };
-    delete newPlayerScores[playerToRemove];
-    setPlayerScores(newPlayerScores);
+    if (playerPositions[playerToRemove] === null) {
+      // Check if the player is not already removed
+      const newPlayerScores = { ...playerScores };
+      delete newPlayerScores[playerToRemove];
+      setPlayerScores(newPlayerScores);
 
-    const newPreviousScores = { ...previousScores };
-    delete newPreviousScores[playerToRemove];
-    setPreviousScores(newPreviousScores);
+      const newPreviousScores = { ...previousScores };
+      delete newPreviousScores[playerToRemove];
+      setPreviousScores(newPreviousScores);
 
-    setRemainingPlayers(remainingPlayers - 1);
+      if (remainingPlayers > 0) {
+        setRemainingPlayers(remainingPlayers - 1);
+      } else {
+        setRemainingPlayers(0);
+        setGameOver(true);
+      }
+    }
   };
 
   // Function to reset the game state
@@ -82,6 +91,20 @@ export const useDartboard = (
       nextPlayer();
       return;
     }
+    console.log(
+      `Player: ${player}, Darts: ${darts}, Points: ${points}, Remaining Players: ${remainingPlayers}, Game Over: ${gameOver}`
+    );
+    // Calculate the number of remaining players
+    // const remainingPlayers = Object.values(playerPositions).filter(
+    //   (pos) => pos === null
+    // ).length;
+
+    // if (remainingPlayers === 1) {
+    //   toast.success("Game Over!");
+    //   setGameOver(true);
+    // } else {
+    //   nextPlayer();
+    // }
 
     setPreviousPlayerState({
       player,
@@ -103,27 +126,27 @@ export const useDartboard = (
 
     let winMessage = "";
 
-    const position =
+    const dartPosition =
       Object.values(playerPositions).filter((pos) => pos !== null).length + 1;
     if (newScore === 0 && isDouble) {
-      if (position === 1) {
+      if (dartPosition === 1) {
         winMessage = "Winner!! 🏆";
-      } else if (position === 2) {
+      } else if (dartPosition === 2) {
         winMessage = "Runner Up!! 🥈";
-      } else if (position === 3) {
+      } else if (dartPosition === 3) {
         winMessage = "Third Place!! 🥉";
-      } else if (position === 4) {
+      } else if (dartPosition === 4) {
         winMessage = "Fourth Place!! 4️⃣";
-      } else if (position === 5) {
+      } else if (dartPosition === 5) {
         winMessage = "Fifth Place!! 5️⃣";
-      } else if (position === 6) {
+      } else if (dartPosition === 6) {
         winMessage = "Last Place!! 💩";
       }
 
       toast.success(
         `${playerNames[player] || `Player ${player}`} '${winMessage}`
       );
-      setPlayerPositions({ ...playerPositions, [player]: position });
+      setPlayerPositions({ ...playerPositions, [player]: dartPosition });
       removePlayer(player);
 
       if (remainingPlayers === 1) {
@@ -185,8 +208,8 @@ export const useDartboard = (
       setPreviousScores(previousPlayerState.previousScores);
       setRoundScore(previousPlayerState.roundScore);
       setPreviousPlayerState(null);
-      // setPosition to the last positionHistory
-      setPosition(positionHistory.slice(-1)[0]);
+      // setPosition to the last dartPositionHistory
+      setPosition(dartPositionHistory.slice(-1)[0]);
     } else {
       toast.warning("No previous action to undo");
     }
@@ -201,6 +224,6 @@ export const useDartboard = (
     gameOver,
     playerPositions,
     handleUndo,
-    positionHistory,
+    dartPositionHistory,
   };
 };

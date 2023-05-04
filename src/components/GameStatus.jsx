@@ -6,7 +6,7 @@ const GameStatus = ({
   player,
   playerNames,
   playerScores,
-  position,
+  dartPosition,
   darts,
   handleUndo,
 }) => {
@@ -18,9 +18,9 @@ const GameStatus = ({
       <h1>
         {playerNames[player] || `Player ${player}`}: {playerScores[player]}
       </h1>
-      <h4>Dart Point: {position}</h4>
+      <h4>Dart Point: {dartPosition}</h4>
       <h3>Darts Left: {darts}</h3>
-      <UndoButton aria-label="Undo last point" onClick={handleUndo}>
+      <UndoButton aria-label="Undo Last Point" onClick={handleUndo}>
         Undo Last point
       </UndoButton>
     </PlayerScore>

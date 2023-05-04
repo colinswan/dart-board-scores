@@ -13,13 +13,13 @@ const GameOver = ({ playerPositions, playerNames }) => {
       <tbody>
         {Object.entries(playerPositions)
           // Filter out players with a null position
-          .filter(([position]) => position !== null)
+          .filter(([, position]) => position !== null)
           // Sort players based on their positions
           .sort((a, b) => a[1] - b[1])
           // Map sorted players to table rows
-          .map(([playerNumber, position]) => (
+          .map(([playerNumber, dartPosition]) => (
             <tr key={playerNumber}>
-              <td>{position}</td>
+              <td>{dartPosition}</td>
               {/* Display player name or default to "Player <playerNumber>" */}
               <td>{playerNames[playerNumber] || `Player ${playerNumber}`}</td>
             </tr>

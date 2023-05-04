@@ -8,13 +8,16 @@ export const useHandleClick = (
   gameOver, // Boolean indicating if the game is over
   remainingPlayers, // Number of remaining players in the game
   setPosition, // Function to set the position value of the dart throw
-  position,
-  setPositionHistory // Function to set the position history of the dart throw
+  dartPosition,
+  setDartPositionHistory // Function to set the position history of the dart throw
 ) => {
   // useCallback ensures that the returned function's reference stays the same
   // between renders, preventing unnecessary re-renders
   return useCallback(
     (e) => {
+      console.log("gameOver:", gameOver);
+      console.log("remainingPlayers:", remainingPlayers);
+
       // If the game is over or there's only one player remaining, do nothing
       if (gameOver || remainingPlayers === 1) {
         return;
@@ -41,7 +44,7 @@ export const useHandleClick = (
       const positionValue = getPositionValue(distance, segment, rect);
       // Set the position value and handle the dart throw
       setPosition(positionValue);
-      setPositionHistory((prevHistory) => [...prevHistory, position]); // Add the position to the position history
+      setDartPositionHistory((prevHistory) => [...prevHistory, dartPosition]); // Add the position to the position history
       handleThrow(positionValue);
     },
     // Declare the hook's dependencies to prevent unnecessary updates
@@ -51,8 +54,8 @@ export const useHandleClick = (
       gameOver,
       remainingPlayers,
       setPosition,
-      position,
-      setPositionHistory,
+      dartPosition,
+      setDartPositionHistory,
     ]
   );
 };
